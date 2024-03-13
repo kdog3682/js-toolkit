@@ -9,7 +9,7 @@ import { serverTimestamp, increment, getFirestore, doc, collection, getDocs, onS
 
 class FireStore {
     constructor(config = {}) {
-        this.collectionId = must(config, 'name')
+        this.collectionId = must(config, 'collectionId')
         this.subcollectionId = config.subcollectionId
         const app = initializeApp(decrypt(crypted))
         this.db = getFirestore(app)
@@ -20,6 +20,7 @@ class FireStore {
         return doc.exists()
     }
     async init(config) {
+        console.log('init to happen later')
         return 
         if (config.singletons) {
             for (const singleton of config.singletons) {

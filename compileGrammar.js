@@ -75,9 +75,7 @@ const GrammarSpecs = [
 ]
 const compileGrammar = createCompiler(GrammarSpecs)
 
-
-
 const gram = 'WORD  ? (  ( SPACE word     )      * (abc def))*'
-// console.loggg(compileGrammar(gram))
+console.loggg(compileGrammar(gram))
 // console.loggg(compileGrammar(gram, 'ast'))
 
