@@ -1,4 +1,4 @@
-/* prettier-ignore */ import { isString, isObject, red, indent, dashCase, TypeAssertion, throwError, exists, hasQuotes, hasNewline, hasHtml, newlineIndent, hasHtmlSuffix, empty, reduceToString, removeQuotes, isPrimitive, doubleQuote } from "/home/kdog3682/2023/utils.js"
+/* prettier-ignore */ import { isDefined, isString, isObject, red, indent, dashCase, TypeAssertion, throwError, exists, hasQuotes, hasNewline, hasHtml, newlineIndent, hasHtmlSuffix, empty, reduceToString, removeQuotes, isPrimitive, doubleQuote } from "/home/kdog3682/2023/utils.js"
 
 export { xmlString }
 
@@ -103,8 +103,7 @@ function buildAttrString(data) {
         return reduceToString(o, runner, join)
     }
 
-    const className = classes ? classes.join(" ").trim() : data.class ? data.class : null
-    const classNameString = className ? buildAttrs({class: className}) : ''
+    const classNameString = buildClassName(data)
     const propString = buildAttrs(props, "props")
     const eventString = buildAttrs(events, "events")
     const directiveString = buildAttrs(directives, "directives")
@@ -123,7 +122,7 @@ function buildAttrString(data) {
 }
 
 function styleString(o) {
-    const a = reduceToString(o, (k,v) => `${k}: ${v};`, ' ')
+    const a = reduceToString(o, (k,v) => isDefined(v) ? `${k}: ${v};` : null, ' ')
     return a ? attrEntry('style', a) : ''
 }
 
@@ -144,4 +143,17 @@ function vueAttrQuotes(s) {
 
 function attrEntry(a, b) {
     return `${a}="${b}"`
+}
+function buildClassName(data) {
+    let s = ''
+    if (data.class) {
+        s += data.class + ' '
+    }
+    if (data.classes) {
+        s += data.classes.join(' ').trim()
+    }
+    if (exists(s)) {
+        return `class="${s}"`
+    }
+    return ''
 }

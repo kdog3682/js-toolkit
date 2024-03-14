@@ -7,6 +7,11 @@ const crypted = '00591a0b12301e025941593a32011a280238342f1a0c310814151615560f361
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js"
 import { serverTimestamp, increment, getFirestore, doc, collection, getDocs, onSnapshot, addDoc, getDoc, arrayUnion, arrayRemove, updateDoc, deleteDoc, where, limit, query, orderBy } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore.js"
 
+
+function getDocData(doc) {
+	return { id: doc.id, ...doc.data() }
+}
+
 class FireStore {
     constructor(config = {}) {
         this.collectionId = must(config, 'collectionId')
@@ -15,6 +20,11 @@ class FireStore {
         this.db = getFirestore(app)
         this.init(config)
     }
+    async has(id) {
+        const doc = await getDoc(this.getDoc(id))
+        return doc.exists()
+    }
+
     async exists(id) {
         const doc = await getDoc(this.getDoc(id))
         return doc.exists()
@@ -107,7 +117,4 @@ class FireStore {
     async delete(doc) {
         await deleteDoc(this.getDoc(doc))
     }
-}
-function getDocData(doc) {
-	return { id: doc.id, ...doc.data() }
 }
