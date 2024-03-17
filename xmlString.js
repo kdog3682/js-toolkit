@@ -134,6 +134,9 @@ function vueAttrQuotes(s) {
         if (s.includes("\n")) {
             s = s.replace(/\n/g, "\\n")
         }
+        if ((/ \+ /.test(s))) {
+            return `"${s}"`
+        }
     } else {
         s = JSON.stringify(s).replace(/"/g, "'")
     }
@@ -153,7 +156,7 @@ function buildClassName(data) {
         s += data.classes.join(' ').trim()
     }
     if (exists(s)) {
-        return `class="${s}"`
+        return `class="${s.trim()}"`
     }
     return ''
 }
