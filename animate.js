@@ -1,4 +1,5 @@
-export { path, flash, revolve }
+export { fadeOut, fadeIn, animatePath, flash, revolve, animate, fade }
+
 
 function animate(el, animationProps, options) {
     if (!options) {
@@ -15,7 +16,21 @@ function animate(el, animationProps, options) {
     })
 }
 
-function path(el, duration = 1000) {
+function fade(el, duration = 1500) {
+    return animate(
+        el,
+        [
+            { opacity: 1 },
+            { opacity: 0 }
+        ],
+        {
+            duration,
+            easing: "ease-out", 
+            fill: 'forwards',
+        }
+    )
+}
+function animatePath(el, duration = 2000) {
     const length = el.getTotalLength()
 
     el.style.strokeDasharray = length
@@ -24,14 +39,12 @@ function path(el, duration = 1000) {
     return animate(
         el,
         [
-            { strokeDashoffset: length }, // from
-            { strokeDashoffset: 0 } // to
-            // appear or disappear it
+            { strokeDashoffset: length },
+            { strokeDashoffset: 0 }
         ],
         {
             duration,
             easing: "linear", // linear easing
-            fill: "forwards" // animation remains at the final keyframe
         }
     )
 }
@@ -74,4 +87,38 @@ function inAndOut(el, key, value) {
         { offset: 1, [key]: prev }
     ]
     return animate(el, keyframes)
+}
+
+
+
+
+function fadeOut(el, duration = 1500) {
+    return animate(
+        el,
+        [
+            { opacity: 1 },
+            { opacity: 0 }
+        ],
+        {
+            duration,
+            easing: "ease-out", 
+            fill: 'forwards',
+        }
+    )
+}
+
+
+function fadeIn(el, duration = 1500) {
+    return animate(
+        el,
+        [
+            { opacity: 0 },
+            { opacity: 1 },
+        ],
+        {
+            duration,
+            easing: "ease-in", 
+            fill: 'forwards',
+        }
+    )
 }

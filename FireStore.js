@@ -15,10 +15,8 @@ function getDocData(doc) {
 class FireStore {
     constructor(config = {}) {
         this.collectionId = must(config, 'collectionId')
-        this.subcollectionId = config.subcollectionId
         const app = initializeApp(decrypt(crypted))
         this.db = getFirestore(app)
-        this.init(config)
     }
     async has(id) {
         const doc = await getDoc(this.getDoc(id))
@@ -28,15 +26,6 @@ class FireStore {
     async exists(id) {
         const doc = await getDoc(this.getDoc(id))
         return doc.exists()
-    }
-    async init(config) {
-        console.log('init to happen later')
-        return 
-        if (config.singletons) {
-            for (const singleton of config.singletons) {
-                const e = await this.exists(singleton.name)
-            }
-        }
     }
     get ref() {
         return collection(this.db, this.collectionId)

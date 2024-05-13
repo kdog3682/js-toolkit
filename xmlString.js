@@ -140,7 +140,7 @@ function vueAttrQuotes(s) {
     } else {
         s = JSON.stringify(s).replace(/"/g, "'")
     }
-    return doubleQuote(s)
+    return doubleQuote(s.trim())
 
 }
 
